@@ -1,17 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <agora-header></agora-header>
+    <router-view></router-view>
+    {{ tokenBalance }}
+    <agora-footer></agora-footer>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import AgoraHeader from "./components/AgoraHeader.vue";
+import AgoraFooter from "./components/AgoraFooter.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    AgoraHeader,
+    AgoraFooter,
+  },
+  computed: {
+    ...mapGetters({
+      tokenBalance: "wallet/getTokenBalance",
+    }),
+  },
+  created() {
+    this.$store.dispatch("wallet/connect");
   },
 };
 </script>
