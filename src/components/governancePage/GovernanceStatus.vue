@@ -1,5 +1,6 @@
 <template>
   <div id="body">
+    <!-- ongingVote에 들어갈 거버넌스 스테이터스 -->
     <div>cWrong</div>
     <div class="oneStatus">
       <div class="name">순위</div>
@@ -30,7 +31,7 @@
       <div class="name">현재 자금</div>
       <div class="value nowBalance">
         {{ governance.balance }}
-        <img src="./../assets/Agora_symbol 4.svg" alt="" />
+        <img src="../../assets/Agora_symbol 4.svg" alt="" />
       </div>
     </div>
   </div>

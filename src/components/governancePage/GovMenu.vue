@@ -1,5 +1,6 @@
 <template>
   <div id="body">
+    <!-- ongoingvote에 들어갈 메뉴(진행중 ,투표,제안,자금운영) -->
     <div id="onGoing">현재 진행중</div>
     <div id="smallContainer">
       <div id="smallMenu">투표</div>

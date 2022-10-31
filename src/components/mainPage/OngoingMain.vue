@@ -1,5 +1,5 @@
 <template>
-  <div id="body">
+  <div id="ongoingMainBody">
     <div class="bodyTitle">진행중인 사안</div>
     <ul>
       <li v-for="onGoingInfo in this.onGoingList" v-bind:key="onGoingInfo.num">
@@ -9,39 +9,43 @@
             <template v-if="onGoingInfo.type == 'vote'"
               >투표 #{{ onGoingInfo.num }}</template
             >
-            <template v-else-if="onGoingInfo.type == 'suggest'"
-              >제안 #{{ onGoingInfo.num }}</template
-            >
           </div>
-          <div class="totalNum">총 투표 : {{ onGoingInfo.totalNum }}</div>
+          <div>
+            총 투표 : {{ onGoingInfo.totalNum }}
+            <img src="../../assets/Agora_symbol 4.svg" alt="Agora" />
+          </div>
         </div>
         <div class="onGoingTitle">{{ onGoingInfo.title }}</div>
         <div class="smallWhite">
           <div class="textLine">
-            <div class="percent">{{ onGoingInfo.agreePercent }}%</div>
-            <div>1502</div>
+            <div class="percent" id="percentL">
+              {{ onGoingInfo.agreePercent }}%
+            </div>
           </div>
           <div class="textLine">
             <div>찬성</div>
-            <div></div>
           </div>
           <div class="lineContainer">
             <div class="lineAbsolute">
               <div
                 class="redLine"
                 v-bind:style="{ width: onGoingInfo.agreePercent + '%' }"
-              ></div>
+              >
+                <div class="redLineReal"></div>
+                <img id="redArrow" src="../../assets/redArrow.svg" alt="" />
+                <img id="whiteArrow" src="../../assets/whiteArrow.svg" alt="" />
+              </div>
               <div class="whiteLine"></div>
             </div>
             <div></div>
           </div>
           <div class="textLine">
             <div>반대</div>
-            <div></div>
           </div>
           <div class="textLine">
-            <div class="percent">{{ 100 - onGoingInfo.agreePercent }}%</div>
-            <div>1502</div>
+            <div class="percent" id="percentR">
+              {{ 100 - onGoingInfo.agreePercent }}%
+            </div>
           </div>
         </div>
       </li>
@@ -64,7 +68,7 @@ export default {
         },
         {
           num: 25,
-          type: "suggest",
+          type: "vote",
           totalNum: 110,
           title: "1 표당 100 AGT로 하는건 어떨까요?",
           agreePercent: 20,
@@ -84,27 +88,23 @@ export default {
 };
 </script>
 
-<style scoped>
-#body {
+<style>
+#ongoingMainBody {
+  flex: 1;
   background: #001e3d;
   box-shadow: 0px 3px 25px rgba(255, 255, 255, 0.1);
-  border-radius: 0.75rem;
-
-  font-family: "Atomy";
-  font-style: normal;
-  font-weight: 500;
-  color: white;
+  border-radius: 16px;
 }
 
 .smallWhite {
   font-size: 1rem;
   display: flex;
   flex-direction: row;
-  padding: 0 3rem;
+  padding: 0 1rem;
 }
 .bodyTitle {
   font-size: 1.5rem;
-  height: 6rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,25 +116,26 @@ ul {
   margin: 0;
 }
 
-li {
+/* li {
   padding-bottom: 1.5rem;
-}
+} */
 
 .line {
   border: 1px solid #082e55;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
 .onGoingHeader {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-family: "Atomy";
   font-style: normal;
   font-weight: 500;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 
-  padding: 0 4rem;
+  padding: 0 1rem;
 }
 
 .onGoingTitle {
@@ -152,6 +153,12 @@ li {
 
 .percent {
   margin-bottom: 1rem;
+}
+#percentL {
+  justify-content: flex-start;
+}
+#percentR {
+  justify-content: flex-end;
 }
 
 .lineContainer {
@@ -184,10 +191,14 @@ li {
   position: absolute;
   height: 4px;
   width: 60%;
-  background-color: #ff0000;
   top: 50%;
   left: 0;
   transform: translate(0, -50%);
+}
+
+.redLineReal {
+  background-color: #ff0000;
+  height: 4px;
 }
 
 .textLine div {
@@ -196,7 +207,22 @@ li {
   justify-content: center;
 }
 
-.totalNum {
-  font-size: 1.25rem;
+#redArrow {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(15%, -50%);
+  z-index: -1;
+}
+#whiteArrow {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(85%, -50%);
+  z-index: -1;
+}
+
+.onGoingHeader img {
+  height: 1rem;
 }
 </style>
