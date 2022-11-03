@@ -2,61 +2,169 @@
   <div id="body">
     <div class="bodyTitle">진행중인 사안</div>
     <ul>
-      <li v-for="onGoingInfo in this.onGoingList" v-bind:key="onGoingInfo.num">
-        <div class="line"></div>
-        <div class="onGoingHeader">
-          <div>
-            <template v-if="onGoingInfo.type == 'vote'"
-              >투표 #{{ onGoingInfo.num }}</template
-            >
-            <template v-else-if="onGoingInfo.type == 'suggest'"
-              >제안 #{{ onGoingInfo.num }}</template
-            >
-          </div>
-          <div class="totalNum">총 투표 : {{ onGoingInfo.totalNum }}</div>
-        </div>
-        <div class="onGoingTitle">{{ onGoingInfo.title }}</div>
-        <div class="smallWhite">
-          <div class="textLine">
-            <div class="percent">{{ onGoingInfo.agreePercent }}%</div>
-            <div>1502</div>
-          </div>
-          <div class="textLine">
-            <div>찬성</div>
-            <div></div>
-          </div>
-          <div class="lineContainer">
-            <div class="lineAbsolute">
-              <div
-                class="redLine"
-                v-bind:style="{ width: onGoingInfo.agreePercent + '%' }"
+      <template v-if="state == 'onGoing'">
+        <li v-for="onGoingInfo in onGoingList" v-bind:key="onGoingInfo.num">
+          <div class="line"></div>
+          <div class="onGoingHeader">
+            <div>
+              <template v-if="onGoingInfo.type == 'vote'"
+                >투표 #{{ onGoingInfo.num }}</template
               >
-                <div class="redLineReal"></div>
-                <img id="redArrow" src="../../assets/redArrow.svg" alt="" />
-                <img id="whiteArrow" src="../../assets/whiteArrow.svg" alt="" />
-              </div>
-              <div class="whiteLine"></div>
+              <template v-else-if="onGoingInfo.type == 'suggest'"
+                >제안 #{{ onGoingInfo.num }}</template
+              >
+
+              <template v-if="state != 'onGoing'">
+                <template v-if="onGoingInfo.state == 'going'">
+                  <div class="state s-ongoing">진행 중</div>
+                </template>
+                <template v-if="onGoingInfo.state == 'adopt'">
+                  <div class="state s-adopt">가결</div>
+                </template>
+                <template v-if="onGoingInfo.state == 'deny'">
+                  <div class="state s-deny">부결</div>
+                </template>
+              </template>
             </div>
-            <div></div>
+            <template v-if="onGoingInfo.type == 'vote'"
+              >총 투표 : {{ onGoingInfo.totalNum }}</template
+            >
+            <template v-if="onGoingInfo.type == 'suggest'"
+              >현재 참여한 멤버 수 : {{ onGoingInfo.totalNum }}</template
+            >
           </div>
-          <div class="textLine">
-            <div>반대</div>
-            <div></div>
+          <div class="onGoingTitle">{{ onGoingInfo.title }}</div>
+          <div class="smallWhite">
+            <div class="textLine">
+              <div class="percent">{{ onGoingInfo.agreePercent }}%</div>
+              <div>{{ onGoingInfo.agreeNum }}</div>
+            </div>
+            <div class="textLine">
+              <div>찬성</div>
+              <div></div>
+            </div>
+            <div class="lineContainer">
+              <div class="lineAbsolute">
+                <div
+                  class="redLine"
+                  v-bind:style="{ width: onGoingInfo.agreePercent + '%' }"
+                >
+                  <div class="redLineReal"></div>
+                  <img id="redArrow" src="../../assets/redArrow.svg" alt="" />
+                  <img
+                    id="whiteArrow"
+                    src="../../assets/whiteArrow.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="whiteLine"></div>
+              </div>
+              <div></div>
+            </div>
+            <div class="textLine">
+              <div>반대</div>
+              <div></div>
+            </div>
+            <div class="textLine">
+              <div class="percent">{{ 100 - onGoingInfo.agreePercent }}%</div>
+              <div>{{ onGoingInfo.totalNum - onGoingInfo.agreeNum }}</div>
+            </div>
           </div>
-          <div class="textLine">
-            <div class="percent">{{ 100 - onGoingInfo.agreePercent }}%</div>
-            <div>1502</div>
+        </li>
+      </template>
+      <template v-else>
+        <li
+          v-for="onGoingInfo in groupList[state]"
+          v-bind:key="onGoingInfo.num"
+        >
+          <div class="line"></div>
+          <div class="onGoingHeader">
+            <div>
+              <template v-if="onGoingInfo.type == 'vote'"
+                >투표 #{{ onGoingInfo.num }}</template
+              >
+              <template v-else-if="onGoingInfo.type == 'suggest'"
+                >제안 #{{ onGoingInfo.num }}</template
+              >
+
+              <template v-if="state != 'onGoing'">
+                <template v-if="onGoingInfo.state == 'going'">
+                  <div class="state s-ongoing">진행 중</div>
+                </template>
+                <template v-if="onGoingInfo.state == 'adopt'">
+                  <div class="state s-adopt">가결</div>
+                </template>
+                <template v-if="onGoingInfo.state == 'deny'">
+                  <div class="state s-deny">부결</div>
+                </template>
+              </template>
+            </div>
+            <template v-if="onGoingInfo.type == 'vote'"
+              >총 투표 : {{ onGoingInfo.totalNum }}</template
+            >
+            <template v-if="onGoingInfo.type == 'suggest'"
+              >현재 참여한 멤버 수 : {{ onGoingInfo.totalNum }}</template
+            >
           </div>
-        </div>
-      </li>
+          <div class="onGoingTitle">{{ onGoingInfo.title }}</div>
+          <div class="smallWhite">
+            <div class="textLine">
+              <div class="percent">{{ onGoingInfo.agreePercent }}%</div>
+              <div>{{ onGoingInfo.agreeNum }}</div>
+            </div>
+            <div class="textLine">
+              <div>찬성</div>
+              <div></div>
+            </div>
+            <div class="lineContainer">
+              <div class="lineAbsolute">
+                <div
+                  class="redLine"
+                  v-bind:style="{ width: onGoingInfo.agreePercent + '%' }"
+                >
+                  <div class="redLineReal"></div>
+                  <img id="redArrow" src="../../assets/redArrow.svg" alt="" />
+                  <img
+                    id="whiteArrow"
+                    src="../../assets/whiteArrow.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="whiteLine"></div>
+              </div>
+              <div></div>
+            </div>
+            <div class="textLine">
+              <div>반대</div>
+              <div></div>
+            </div>
+            <div class="textLine">
+              <div class="percent">{{ 100 - onGoingInfo.agreePercent }}%</div>
+              <div>{{ onGoingInfo.totalNum - onGoingInfo.agreeNum }}</div>
+            </div>
+          </div>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
+  props: { state: String },
+  created() {
+    for (var temp in this.onGoingList) {
+      this.groupList[this.onGoingList[temp].type].push(this.onGoingList[temp]);
+    }
+  },
   data() {
     return {
+      groupList: {
+        onGoing: [],
+        vote: [],
+        suggest: [],
+        fund: [],
+      },
       onGoingList: [
         {
           num: 25,
@@ -65,22 +173,61 @@ export default {
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 60,
           agreeNum: 1502,
+          state: "going",
         },
         {
-          num: 25,
+          num: 22,
           type: "suggest",
           totalNum: 110,
           title: "1 표당 100 AGT로 하는건 어떨까요?",
           agreePercent: 20,
-          agreeNum: 1502,
+          agreeNum: 34,
+          state: "going",
         },
         {
-          num: 25,
+          num: 23,
           type: "vote",
           totalNum: 2463,
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 87,
           agreeNum: 1502,
+          state: "going",
+        },
+        {
+          num: 35,
+          type: "suggest",
+          totalNum: 110,
+          title: "1 표당 100 AGT로 하는건 어떨까요?",
+          agreePercent: 20,
+          agreeNum: 34,
+          state: "going",
+        },
+        {
+          num: 45,
+          type: "vote",
+          totalNum: 2463,
+          title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
+          agreePercent: 87,
+          agreeNum: 1502,
+          state: "adopt",
+        },
+        {
+          num: 5,
+          type: "suggest",
+          totalNum: 110,
+          title: "1 표당 100 AGT로 하는건 어떨까요?",
+          agreePercent: 20,
+          agreeNum: 34,
+          state: "deny",
+        },
+        {
+          num: 85,
+          type: "vote",
+          totalNum: 2463,
+          title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
+          agreePercent: 87,
+          agreeNum: 1502,
+          state: "going",
         },
       ],
     };
@@ -138,7 +285,7 @@ li {
   flex-direction: row;
   justify-content: space-between;
 
-  padding: 0 4rem;
+  padding: 0 3rem;
 }
 
 .onGoingTitle {
@@ -221,5 +368,42 @@ li {
   right: 0;
   transform: translate(85%, -50%);
   z-index: -1;
+}
+
+.state {
+  width: 6rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+
+  font-family: "Atomy";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.125rem;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+
+  margin-left: 1rem;
+}
+
+.s-ongoing {
+  background: #d9d9d9;
+}
+
+.s-adopt {
+  background: #47ac3a;
+}
+
+.s-deny {
+  background: #ff0000;
+}
+
+.onGoingHeader div:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 </style>

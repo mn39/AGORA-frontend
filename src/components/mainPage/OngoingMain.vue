@@ -9,9 +9,17 @@
             <template v-if="onGoingInfo.type == 'vote'"
               >투표 #{{ onGoingInfo.num }}</template
             >
+            <template v-if="onGoingInfo.type == 'suggest'"
+              >제안 #{{ onGoingInfo.num }}</template
+            >
           </div>
           <div>
-            총 투표 : {{ onGoingInfo.totalNum }}
+            <template v-if="onGoingInfo.type == 'vote'"
+              >총 투표 : {{ onGoingInfo.totalNum }}</template
+            >
+            <template v-if="onGoingInfo.type == 'suggest'"
+              >현재 참여한 멤버 수 : {{ onGoingInfo.totalNum }}</template
+            >
             <img src="../../assets/Agora_symbol 4.svg" alt="Agora" />
           </div>
         </div>
@@ -68,7 +76,7 @@ export default {
         },
         {
           num: 25,
-          type: "vote",
+          type: "suggest",
           totalNum: 110,
           title: "1 표당 100 AGT로 하는건 어떨까요?",
           agreePercent: 20,
@@ -88,7 +96,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #ongoingMainBody {
   flex: 1;
   background: #001e3d;

@@ -31,6 +31,7 @@ export default {
   color: #ffffff;
 
   padding: 0 3rem;
+  padding-bottom: 4rem;
 
   background-color: #082e55;
 }

@@ -1,17 +1,45 @@
 <template>
   <div id="body">
     <!-- ongoingvote에 들어갈 메뉴(진행중 ,투표,제안,자금운영) -->
-    <div id="onGoing">현재 진행중</div>
+    <div
+      class="onGoing"
+      v-on:click="$emit('switch', 'onGoing')"
+      v-bind:class="{ selected: state == 'onGoing' }"
+    >
+      현재 진행중
+    </div>
     <div id="smallContainer">
-      <div id="smallMenu">투표</div>
-      <div id="smallMenu">제안</div>
-      <div id="smallMenu">자금운영</div>
+      <div
+        class="smallMenu"
+        v-on:click="$emit('switch', 'vote')"
+        v-bind:class="{ selected: state == 'vote' }"
+      >
+        투표
+      </div>
+      <div
+        class="smallMenu"
+        v-on:click="$emit('switch', 'suggest')"
+        v-bind:class="{ selected: state == 'suggest' }"
+      >
+        제안
+      </div>
+      <div
+        class="smallMenu"
+        v-on:click="$emit('switch', 'fund')"
+        v-bind:class="{ selected: state == 'fund' }"
+      >
+        자금운영
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    state: String,
+  },
+};
 </script>
 
 <style scoped>
@@ -38,17 +66,21 @@ export default {};
   display: flex;
   flex-direction: row;
 }
-#onGoing {
-  background-color: #3a5d81;
+.onGoing {
+  background-color: #001e3d;
   box-shadow: 0px 3px 25px rgba(255, 255, 255, 0.1);
   margin-bottom: 0.75rem;
 }
-#smallMenu {
+.smallMenu {
   background-color: #001e3d;
   box-shadow: 0px 3px 25px rgba(255, 255, 255, 0.1);
   flex: 1;
 }
-#smallMenu:nth-child(2) {
+.smallMenu:nth-child(2) {
   margin: 0 3rem;
+}
+
+.selected {
+  background: #3a5d81;
 }
 </style>

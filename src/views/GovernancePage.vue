@@ -1,16 +1,14 @@
 <template>
   <div id="app">
     <agora-header></agora-header>
-    <router-view></router-view>
-    {{ tokenBalance }}
     <div id="status">
       <governance-status></governance-status>
       <wallet-status></wallet-status>
     </div>
 
     <div id="mainBody">
-      <main-menu></main-menu>
-      <ongoing-vote></ongoing-vote>
+      <gov-menu v-bind:state="state" v-on:switch="switchList"></gov-menu>
+      <ongoing-vote v-bind:state="state"></ongoing-vote>
     </div>
     <agora-footer></agora-footer>
   </div>
@@ -21,7 +19,7 @@ import AgoraHeader from "../components/AgoraHeader.vue";
 import AgoraFooter from "../components/AgoraFooter.vue";
 import WalletStatus from "../components/WalletStatus.vue";
 import GovernanceStatus from "../components/governancePage/GovernanceStatus.vue";
-import MainMenu from "../components/governancePage/GovMenu.vue";
+import GovMenu from "../components/governancePage/GovMenu.vue";
 import OngoingVote from "../components/governancePage/OngoingVote.vue";
 
 export default {
@@ -31,7 +29,17 @@ export default {
     AgoraFooter,
     WalletStatus,
     GovernanceStatus,
-    MainMenu,
+    GovMenu,
+  },
+  methods: {
+    switchList(str) {
+      this.state = str;
+    },
+  },
+  data() {
+    return {
+      state: "onGoing",
+    };
   },
 };
 </script>
@@ -43,7 +51,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
   background-color: #082e55;
 }
 

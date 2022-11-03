@@ -4,7 +4,7 @@
       <div class="title">총 자금</div>
     </div>
     <div v-for="(gov, index) in govList" :key="index" class="oneItem">
-      <div>#{{ gov.rank }}</div>
+      <div>#{{ index + 1 }}</div>
       <div>{{ gov.name }}</div>
       <div>
         {{ gov.nowBalance }}

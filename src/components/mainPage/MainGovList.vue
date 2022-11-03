@@ -14,8 +14,8 @@
       <div class="imgFrame">
         <img v-bind:src="gov.imgSrc" alt="img" />
       </div>
+      <div id="govName">{{ gov.name }}</div>
       <div v-if="index == 2" class="textFrame">
-        <div id="govName">{{ gov.name }}</div>
         <div class="detail">
           <div>전체 자금 순위</div>
           <div>{{ gov.rank }}</div>
@@ -42,8 +42,15 @@ export default {
     return {
       govList: [
         {
-          name: "크롱",
-          rank: 1,
+          name: "포비",
+          rank: 3,
+          nowBalance: 12583,
+          member: 200,
+          imgSrc: require("./../../assets/Agora_symbol 4.svg"),
+        },
+        {
+          name: "name",
+          rank: 2,
           nowBalance: 12583,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
@@ -57,21 +64,14 @@ export default {
         },
         {
           name: "크롱",
-          rank: 1,
+          rank: 4,
           nowBalance: 12583,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
           name: "크롱",
-          rank: 1,
-          nowBalance: 12583,
-          member: 200,
-          imgSrc: require("./../../assets/Agora_symbol 4.svg"),
-        },
-        {
-          name: "크롱",
-          rank: 1,
+          rank: 5,
           nowBalance: 12583,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
