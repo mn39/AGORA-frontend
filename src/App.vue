@@ -1,15 +1,18 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <test-comp></test-comp>
+    {{ tokenBalance }}
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import TestComp from "./components/testComp.vue";
 
 export default {
   name: "App",
-  components: {},
+  components: TestComp,
   computed: {
     ...mapGetters({
       tokenBalance: "wallet/getTokenBalance",

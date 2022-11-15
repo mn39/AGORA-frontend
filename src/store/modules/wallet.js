@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import tokenContractABI from "../../contracts/abi/AgoraToken.json";
+import viewContractABI from "../../contracts/abi/View.json";
 import deployedAddress from "../../contracts/deployedAddress.json";
 
 const state = () => ({
@@ -9,6 +10,7 @@ const state = () => ({
   tokenBalance: 0,
   provider: null,
   signer: null,
+  viewContract: null,
   tokenContract: null,
 });
 
@@ -37,6 +39,9 @@ const getters = {
   getSigner(state) {
     return state.signer;
   },
+  getVIewContract(state) {
+    return state.viewContract;
+  },
   getTokenContract(state) {
     return state.tokenContract;
   },
@@ -61,9 +66,16 @@ const mutations = {
   setSigner: function (state, value) {
     state.signer = value;
   },
-  setContracts: function (state) {
+  setViewContracts: function (state) {
+    state.viewContract = new ethers.Contract(
+      deployedAddress.View,
+      viewContractABI,
+      state.signer
+    );
+  },
+  setContracts: function (state, tokenaddress) {
     state.tokenContract = new ethers.Contract(
-      deployedAddress.AgoraToken,
+      tokenaddress,
       tokenContractABI,
       state.signer
     );
@@ -86,7 +98,10 @@ const actions = {
     commit("setWalletAddress", address);
     commit("setWalletBalance", balance);
 
-    commit("setContracts");
+    commit("setViewContracts");
+    const tokenAddress = await getters.viewContract.getTokenAddress();
+    console.log(tokenAddress);
+    commit("setContracts", tokenAddress);
 
     const tokenBalance = await getters.getTokenContract.balanceOf(
       getters.getWalletAddress

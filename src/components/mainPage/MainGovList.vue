@@ -11,26 +11,28 @@
       }"
       v-bind:class="{ mainSlide: index == 2 }"
     >
-      <div class="imgFrame">
-        <img v-bind:src="gov.imgSrc" alt="img" />
-      </div>
-      <div id="govName">{{ gov.name }}</div>
-      <div v-if="index == 2" class="textFrame">
-        <div class="detail">
-          <div>전체 자금 순위</div>
-          <div>{{ gov.rank }}</div>
+      <router-link v-bind:to="'/gov/' + gov.name" tag="div">
+        <div class="imgFrame">
+          <img v-bind:src="gov.imgSrc" alt="img" />
         </div>
+        <div id="govName">{{ gov.name }}</div>
+        <div v-if="index == 2" class="textFrame">
+          <div class="detail">
+            <div>전체 자금 순위</div>
+            <div>{{ gov.rank }}</div>
+          </div>
 
-        <div class="detail">
-          <div>현재 자금</div>
-          <div>{{ gov.nowBalance }}</div>
-        </div>
+          <div class="detail">
+            <div>현재 자금</div>
+            <div>{{ gov.nowBalance }}</div>
+          </div>
 
-        <div class="detail">
-          <div>맴버 수</div>
-          <div>{{ gov.rank }}</div>
+          <div class="detail">
+            <div>맴버 수</div>
+            <div>{{ gov.rank }}</div>
+          </div>
         </div>
-      </div>
+      </router-link>
     </span>
     <!-- </transition-group> -->
   </div>

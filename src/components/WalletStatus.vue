@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div id="walletText">내 지갑</div>
-    <div id="tokenNum">{{ myToken }}</div>
+    <div id="tokenNum">{{ myTokenBalance }}</div>
     <div id="symbol">
       <img src="./../assets/Agora_symbol 4.svg" alt="agora" />
     </div>
@@ -9,11 +9,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  data() {
-    return {
-      myToken: 5,
-    };
+  computed: {
+    ...mapGetters({
+      myTokenBalance: "wallet/getTokenBalance",
+    }),
   },
 };
 </script>
