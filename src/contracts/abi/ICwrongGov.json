@@ -125,11 +125,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "govId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "voteID",
         "type": "uint256"
       },
@@ -159,11 +154,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "govId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "voteID",
         "type": "uint256"
       },
@@ -188,7 +178,7 @@
         "type": "bytes32[]"
       }
     ],
-    "name": "createVote",
+    "name": "createVoteOptioned",
     "outputs": [
       {
         "internalType": "address",
@@ -233,7 +223,7 @@
   },
   {
     "inputs": [],
-    "name": "getGovId",
+    "name": "getGovID",
     "outputs": [
       {
         "internalType": "uint256",
@@ -342,6 +332,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getViewAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -421,6 +424,25 @@
     ],
     "name": "setGovName",
     "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newView",
+        "type": "address"
+      }
+    ],
+    "name": "setViewAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   }

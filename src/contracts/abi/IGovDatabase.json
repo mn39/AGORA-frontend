@@ -10,12 +10,6 @@
       },
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "govName",
-        "type": "string"
-      },
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "govAddress",
         "type": "address"
@@ -97,7 +91,13 @@
       }
     ],
     "name": "setViewAddress",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   }

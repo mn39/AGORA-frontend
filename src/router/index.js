@@ -17,7 +17,7 @@ const router = new VueRouter({
       component: MainPage,
     },
     {
-      path: "/gov/:name",
+      path: "/gov/:id",
       component: GoverancePage,
     },
   ],

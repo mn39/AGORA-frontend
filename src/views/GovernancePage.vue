@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <agora-header></agora-header>
     <div id="status">
-      <governance-status></governance-status>
+      <governance-status v-bind:id="$route.params.id"></governance-status>
       <wallet-status></wallet-status>
     </div>
 
@@ -15,7 +14,6 @@
 </template>
 
 <script>
-import AgoraHeader from "../components/AgoraHeader.vue";
 import AgoraFooter from "../components/AgoraFooter.vue";
 import WalletStatus from "../components/WalletStatus.vue";
 import GovernanceStatus from "../components/governancePage/GovernanceStatus.vue";
@@ -25,7 +23,6 @@ import OngoingVote from "../components/governancePage/OngoingVote.vue";
 export default {
   components: {
     OngoingVote,
-    AgoraHeader,
     AgoraFooter,
     WalletStatus,
     GovernanceStatus,
@@ -53,7 +50,6 @@ export default {
   color: #2c3e50;
   /* margin-top: 60px; */
   background-color: #082e55;
-  padding-top: 8rem;
 }
 
 #status {

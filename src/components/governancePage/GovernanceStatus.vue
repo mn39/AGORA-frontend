@@ -9,22 +9,22 @@
 
     <div class="oneStatus">
       <div class="name">투표</div>
-      <div class="value">{{ governance.voting }}</div>
+      <div class="value">{{ governance.voteCount }}</div>
     </div>
 
     <div class="oneStatus">
       <div class="name">제안</div>
-      <div class="value">{{ governance.suggest }}</div>
+      <div class="value">{{ governance.proposalCount }}</div>
     </div>
 
     <div class="oneStatus">
       <div class="name">자금운영</div>
-      <div class="value">{{ governance.balanceUseage }}</div>
+      <div class="value">{{ governance.fundingCount }}</div>
     </div>
 
     <div class="oneStatus">
       <div class="name">맴버 수</div>
-      <div class="value">{{ governance.memberNum }}</div>
+      <div class="value">{{ governance.memberCount }}</div>
     </div>
 
     <div class="oneStatus">
@@ -38,18 +38,31 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
+  props: {
+    id: String,
+  },
   data() {
     return {
-      governance: {
-        ranking: 1,
-        voting: 25,
-        suggest: 12,
-        balanceUseage: 7,
-        memberNum: 212,
-        balance: 12583,
+      tempGov: {
+        ranking: 0,
+        voteCount: 0,
+        proposalCount: 0,
+        fundingCount: 0,
+        memberCount: 0,
+        presentBalance: 0,
       },
     };
+  },
+  computed: {
+    governance() {
+      return this.govLoading ? this.tempGov : this.govInfo[this.id];
+    },
+    ...mapGetters({
+      govLoading: "gov/getGovLoading",
+      govInfo: "gov/getGovDict",
+    }),
   },
 };
 </script>

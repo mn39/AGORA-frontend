@@ -39,7 +39,7 @@ const getters = {
   getSigner(state) {
     return state.signer;
   },
-  getVIewContract(state) {
+  getViewContract(state) {
     return state.viewContract;
   },
   getTokenContract(state) {
@@ -73,9 +73,9 @@ const mutations = {
       state.signer
     );
   },
-  setContracts: function (state, tokenaddress) {
+  setTokenContracts: function (state, tokenAddress) {
     state.tokenContract = new ethers.Contract(
-      tokenaddress,
+      tokenAddress,
       tokenContractABI,
       state.signer
     );
@@ -83,7 +83,7 @@ const mutations = {
 };
 
 const actions = {
-  async connect({ commit, getters }) {
+  async connect({ commit, getters, dispatch }) {
     const provider = await new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     const signer = await provider.getSigner();
@@ -99,13 +99,15 @@ const actions = {
     commit("setWalletBalance", balance);
 
     commit("setViewContracts");
-    const tokenAddress = await getters.viewContract.getTokenAddress();
-    console.log(tokenAddress);
-    commit("setContracts", tokenAddress);
+    const tokenAddress = await getters.getViewContract.getTokenAddress();
+    commit("setTokenContracts", tokenAddress);
+
+    dispatch("gov/setGovDatabase", "", { root: true });
 
     const tokenBalance = await getters.getTokenContract.balanceOf(
       getters.getWalletAddress
     );
+
     commit("setTokenBalance", tokenBalance);
   },
 };

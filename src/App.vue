@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="appVue">
+    <agora-header></agora-header>
     <router-view></router-view>
     <test-comp></test-comp>
     {{ tokenBalance }}
@@ -9,10 +10,12 @@
 <script>
 import { mapGetters } from "vuex";
 import TestComp from "./components/testComp.vue";
+import AgoraHeader from "./components/AgoraHeader.vue";
 
 export default {
   name: "App",
-  components: TestComp,
+  components: { TestComp, AgoraHeader },
+
   computed: {
     ...mapGetters({
       tokenBalance: "wallet/getTokenBalance",
@@ -25,10 +28,12 @@ export default {
 </script>
 
 <style scoped>
-#app {
+#appVue {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  padding-top: 7rem;
+  background-color: #082e55;
 }
 </style>
