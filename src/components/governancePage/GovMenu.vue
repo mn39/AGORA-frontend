@@ -18,15 +18,15 @@
       </div>
       <div
         class="smallMenu"
-        v-on:click="$emit('switch', 'suggest')"
-        v-bind:class="{ selected: menuState == 'suggest' }"
+        v-on:click="$emit('switch', 'proposal')"
+        v-bind:class="{ selected: menuState == 'proposal' }"
       >
         제안
       </div>
       <div
         class="smallMenu"
-        v-on:click="$emit('switch', 'fund')"
-        v-bind:class="{ selected: menuState == 'fund' }"
+        v-on:click="$emit('switch', 'funding')"
+        v-bind:class="{ selected: menuState == 'funding' }"
       >
         자금운영
       </div>

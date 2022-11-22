@@ -10,14 +10,13 @@
       <ongoing-vote
         v-bind:menuState="state"
         v-bind:id="$route.params.id"
+        ref="onGoingVote"
       ></ongoing-vote>
     </div>
-    <agora-footer></agora-footer>
   </div>
 </template>
 
 <script>
-import AgoraFooter from "../components/AgoraFooter.vue";
 import WalletStatus from "../components/WalletStatus.vue";
 import GovernanceStatus from "../components/governancePage/GovernanceStatus.vue";
 import GovMenu from "../components/governancePage/GovMenu.vue";
@@ -26,7 +25,6 @@ import OngoingVote from "../components/governancePage/OngoingVote.vue";
 export default {
   components: {
     OngoingVote,
-    AgoraFooter,
     WalletStatus,
     GovernanceStatus,
     GovMenu,
@@ -34,6 +32,7 @@ export default {
   methods: {
     switchList(str) {
       this.state = str;
+      this.$refs.onGoingVote.goMenu();
     },
   },
   computed: {},

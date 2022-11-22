@@ -1,7 +1,9 @@
 <template>
   <div class="header">
-    <img src="../assets/gnb_logo.svg" alt="Agora" />
-    <div class="wallet">지갑 연결</div>
+    <router-link to="/">
+      <img src="../assets/gnb_logo.svg" alt="Agora" />
+    </router-link>
+    <!-- <div class="wallet">지갑 연결</div> -->
   </div>
 </template>
 

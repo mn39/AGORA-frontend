@@ -3,7 +3,7 @@
     <agora-header></agora-header>
     <router-view></router-view>
     <test-comp></test-comp>
-    {{ tokenBalance }}
+    <!-- {{ tokenBalance }} -->
   </div>
 </template>
 
@@ -35,5 +35,6 @@ export default {
   text-align: center;
   padding-top: 7rem;
   background-color: #082e55;
+  padding-bottom: 3rem;
 }
 </style>

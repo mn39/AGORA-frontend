@@ -24,7 +24,7 @@ const getters = {
   getWalletBalance(state) {
     return ethers.utils.formatEther(state.walletBalance);
   },
-  getWalletBalanceWei(state) {
+  getWalletBalanceWeight(state) {
     return state.walletBalance;
   },
   getWalletBalanceEth(state) {
@@ -107,6 +107,7 @@ const actions = {
     const tokenBalance = await getters.getTokenContract.balanceOf(
       getters.getWalletAddress
     );
+    console.log(tokenBalance);
 
     commit("setTokenBalance", tokenBalance);
   },

@@ -27,30 +27,30 @@ export default {
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
-          name: "크롱",
-          rank: 1,
-          nowBalance: 12583,
+          name: "루피",
+          rank: 2,
+          nowBalance: 9334,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
-          name: "크롱",
-          rank: 1,
-          nowBalance: 12583,
+          name: "포비",
+          rank: 3,
+          nowBalance: 1283,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
-          name: "크롱",
-          rank: 1,
-          nowBalance: 12583,
+          name: "해리",
+          rank: 4,
+          nowBalance: 581,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
-          name: "크롱",
-          rank: 1,
-          nowBalance: 12583,
+          name: "에디",
+          rank: 5,
+          nowBalance: 432,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
@@ -95,5 +95,18 @@ export default {
 
 img {
   height: 1.5rem;
+}
+
+.oneItem div {
+  flex: 1;
+}
+
+.oneItem div:nth-child(1) {
+  display: flex;
+  justify-content: flex-start;
+}
+.oneItem div:nth-child(3) {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

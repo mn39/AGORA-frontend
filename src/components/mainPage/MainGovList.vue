@@ -11,7 +11,7 @@
       }"
       v-bind:class="{ mainSlide: index == 2 }"
     >
-      <router-link v-bind:to="'/gov/' + gov.name" tag="div">
+      <router-link v-bind:to="'/gov/' + gov.id" tag="div">
         <div class="imgFrame">
           <img v-bind:src="gov.imgSrc" alt="img" />
         </div>
@@ -47,13 +47,15 @@ export default {
           name: "포비",
           rank: 3,
           nowBalance: 12583,
+          id: 0,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
-          name: "name",
+          name: "루피",
           rank: 2,
           nowBalance: 12583,
+          id: 0,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
@@ -61,20 +63,23 @@ export default {
           name: "크롱",
           rank: 1,
           nowBalance: 12583,
+          id: 0,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
-          name: "크롱",
+          name: "해리",
           rank: 4,
           nowBalance: 12583,
+          id: 0,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
         {
-          name: "크롱",
+          name: "에디",
           rank: 5,
           nowBalance: 12583,
+          id: 0,
           member: 200,
           imgSrc: require("./../../assets/Agora_symbol 4.svg"),
         },
