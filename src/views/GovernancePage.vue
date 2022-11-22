@@ -6,8 +6,11 @@
     </div>
 
     <div id="mainBody">
-      <gov-menu v-bind:state="state" v-on:switch="switchList"></gov-menu>
-      <ongoing-vote v-bind:state="state"></ongoing-vote>
+      <gov-menu v-bind:menuState="state" v-on:switch="switchList"></gov-menu>
+      <ongoing-vote
+        v-bind:menuState="state"
+        v-bind:id="$route.params.id"
+      ></ongoing-vote>
     </div>
     <agora-footer></agora-footer>
   </div>
@@ -33,6 +36,7 @@ export default {
       this.state = str;
     },
   },
+  computed: {},
   data() {
     return {
       state: "onGoing",

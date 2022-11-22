@@ -1,9 +1,12 @@
 import { ethers } from "ethers";
 import govDatabaseContractABI from "../../contracts/abi/GovDatabase.json";
 import CwrongGovABI from "../../contracts/abi/CwrongGov.json";
+import voteFactoryContractABI from "../../contracts/abi/VoteFactory.json";
+import voteContractABI from "../../contracts/abi/Vote.json";
 const state = () => ({
   govDatabaseContract: null,
   govAdressList: null,
+  voteFactoryContract: null,
   govDict: {},
   govIDList: [],
   signer: null,
@@ -13,6 +16,9 @@ const state = () => ({
 const getters = {
   getGovDatabaseContract(state) {
     return state.govDatabaseContract;
+  },
+  getVoteFactoryContract(state) {
+    return state.voteFactoryContract;
   },
   getGovAdressList(state) {
     return state.govAdressList;
@@ -42,6 +48,13 @@ const mutations = {
       state.signer
     );
   },
+  setVoteFactoryContracts: function (state, voteFactoryAddress) {
+    state.voteFactoryContract = new ethers.Contract(
+      voteFactoryAddress,
+      voteFactoryContractABI,
+      state.signer
+    );
+  },
   setGovAdressList: function (state, list) {
     state.govAdressList = list;
   },
@@ -61,11 +74,20 @@ const mutations = {
 
 const actions = {
   async setGovDatabase({ commit, getters, dispatch, rootGetters }) {
+    //set govDatabase
     const govDatabaseAddress = await rootGetters[
       "wallet/getViewContract"
     ].getGovDatabaseAddress();
     commit("setSigner", await rootGetters["wallet/getSigner"]);
     commit("setGovDatabaseContracts", govDatabaseAddress);
+
+    //set voteFactory
+    const voteFactoryAddress = await rootGetters[
+      "wallet/getViewContract"
+    ].getVoteFactoryAddress();
+    commit("setSigner", await rootGetters["wallet/getSigner"]);
+    commit("setVoteFactoryContracts", voteFactoryAddress);
+
     const govNum = await getters.getGovDatabaseContract.getGovCount();
     var govAdressList = [];
 
@@ -76,7 +98,72 @@ const actions = {
     dispatch("getGovInfo");
   },
 
-  async getGovInfo({ commit, getters }) {
+  async getVoteInfo({ getters }, voteID) {
+    console.log(getters.getVoteFactoryContract);
+    const voteCount = await getters.getVoteFactoryContract.getVoteCount(voteID);
+    var voteAdressList = [];
+    // console.log(getters.getVoteFactoryContract);
+    for (var i = 0; i < voteCount; i++) {
+      voteAdressList.push(
+        await getters.getVoteFactoryContract.getVoteAddress(voteID, i)
+      );
+    }
+    var voteList = [];
+    for (i of voteAdressList) {
+      var oneVoteContract = new ethers.Contract(
+        i,
+        voteContractABI,
+        getters.getSigner
+      );
+      var voteObj = {};
+
+      voteObj["id"] = await oneVoteContract.getVoteID().then((value) => {
+        return value.toNumber();
+      });
+
+      voteObj["title"] = "tempTitle";
+
+      voteObj["type"] = "vote";
+      voteObj["created"] = await oneVoteContract.getCreated();
+      voteObj["deadline"] = await oneVoteContract.getDeadline();
+      voteObj["deadline"] = voteObj["deadline"].toNumber();
+
+      voteObj["isOption"] = await oneVoteContract.isOption();
+      var tempVoteStatus = await oneVoteContract.voteStatus();
+      voteObj["voteStatus"] = [...tempVoteStatus];
+      var temp = 0;
+      for (i = 0; i < voteObj["voteStatus"].length; i++) {
+        voteObj["voteStatus"][i] = voteObj["voteStatus"][i].toNumber();
+        temp += voteObj["voteStatus"][i];
+      }
+
+      voteObj["totalVoteCount"] = temp;
+      voteObj["agreePercent"] = parseInt(
+        (voteObj["voteStatus"][0] / temp) * 100
+      );
+      voteObj["agreeNum"] = voteObj["voteStatus"][0];
+      voteObj["isEnable"] = false;
+      if (voteObj["isEnable"] == false) {
+        voteObj["state"] = "going";
+      } else {
+        if (voteObj["agreePercent"] >= 50) voteObj["state"] = "adopt";
+        else voteObj["state"] = "deny";
+      }
+      if (voteObj["isEnable"] == true) {
+        voteObj["voteResult"] = await oneVoteContract.voteResult();
+      }
+      voteObj["contract"] = oneVoteContract;
+
+      // console.log(new Date(voteObj["deadline"].toNumber() * 1000));
+
+      if (!voteObj["isOption"]) {
+        voteList.push(voteObj);
+      }
+    }
+
+    return voteList;
+  },
+  async getGovInfo({ commit, getters, dispatch }) {
     var govAdressList = getters.getGovAdressList;
     var govDict = {};
     var govIDList = [];
@@ -97,9 +184,14 @@ const actions = {
       govObj["fundingCount"] = await oneGovContract.getFundingCount();
       govObj["presentBalance"] = await oneGovContract.getPresentBalance();
       govObj["totalBalance"] = await oneGovContract.getTotalBalance();
+      govObj["voteList"] = await dispatch("getVoteInfo", govObj["id"]);
+
+      console.log(govObj);
       govDict[govObj["id"]] = govObj;
       govIDList.push(govObj["id"]);
       sortList.push([govObj["totalBalance"], govObj["id"]]);
+
+      // dispatch("votes/setVoteDatabase", govObj["id"], { root: true });
     }
     sortList.sort().reverse();
     for (i = 0; i < sortList.length; i++) {

@@ -15,10 +15,10 @@
           </div>
           <div>
             <template v-if="onGoingInfo.type == 'vote'"
-              >총 투표 : {{ onGoingInfo.totalNum }}</template
+              >총 투표 : {{ onGoingInfo.totalVoteCount }}</template
             >
             <template v-if="onGoingInfo.type == 'suggest'"
-              >현재 참여한 멤버 수 : {{ onGoingInfo.totalNum }}</template
+              >현재 참여한 멤버 수 : {{ onGoingInfo.totalVoteCount }}</template
             >
             <img src="../../assets/Agora_symbol 4.svg" alt="Agora" />
           </div>
@@ -69,7 +69,7 @@ export default {
         {
           num: 25,
           type: "vote",
-          totalNum: 2463,
+          totalVoteCount: 2463,
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 60,
           agreeNum: 1502,
@@ -77,7 +77,7 @@ export default {
         {
           num: 25,
           type: "suggest",
-          totalNum: 110,
+          totalVoteCount: 110,
           title: "1 표당 100 AGT로 하는건 어떨까요?",
           agreePercent: 20,
           agreeNum: 1502,
@@ -85,7 +85,7 @@ export default {
         {
           num: 25,
           type: "vote",
-          totalNum: 2463,
+          totalVoteCount: 2463,
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 87,
           agreeNum: 1502,

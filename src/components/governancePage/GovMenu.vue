@@ -4,7 +4,7 @@
     <div
       class="onGoing"
       v-on:click="$emit('switch', 'onGoing')"
-      v-bind:class="{ selected: state == 'onGoing' }"
+      v-bind:class="{ selected: menuState == 'onGoing' }"
     >
       현재 진행중
     </div>
@@ -12,21 +12,21 @@
       <div
         class="smallMenu"
         v-on:click="$emit('switch', 'vote')"
-        v-bind:class="{ selected: state == 'vote' }"
+        v-bind:class="{ selected: menuState == 'vote' }"
       >
         투표
       </div>
       <div
         class="smallMenu"
         v-on:click="$emit('switch', 'suggest')"
-        v-bind:class="{ selected: state == 'suggest' }"
+        v-bind:class="{ selected: menuState == 'suggest' }"
       >
         제안
       </div>
       <div
         class="smallMenu"
         v-on:click="$emit('switch', 'fund')"
-        v-bind:class="{ selected: state == 'fund' }"
+        v-bind:class="{ selected: menuState == 'fund' }"
       >
         자금운영
       </div>
@@ -37,7 +37,7 @@
 <script>
 export default {
   props: {
-    state: String,
+    menuState: String,
   },
 };
 </script>

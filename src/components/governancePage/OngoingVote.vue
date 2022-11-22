@@ -2,35 +2,35 @@
   <div id="body">
     <div class="bodyTitle">진행중인 사안</div>
     <ul>
-      <template v-if="state == 'onGoing'">
-        <li v-for="onGoingInfo in onGoingList" v-bind:key="onGoingInfo.num">
+      <template v-if="menuState == 'onGoing'">
+        <li v-for="onGoingInfo in onGoingList" v-bind:key="onGoingInfo.id">
           <div class="line"></div>
           <div class="onGoingHeader">
             <div>
               <template v-if="onGoingInfo.type == 'vote'"
-                >투표 #{{ onGoingInfo.num }}</template
+                >투표 #{{ onGoingInfo.id }}</template
               >
               <template v-else-if="onGoingInfo.type == 'suggest'"
-                >제안 #{{ onGoingInfo.num }}</template
+                >제안 #{{ onGoingInfo.id }}</template
               >
 
-              <template v-if="state != 'onGoing'">
+              <template v-if="menuState != 'onGoing'">
                 <template v-if="onGoingInfo.state == 'going'">
-                  <div class="state s-ongoing">진행 중</div>
+                  <div class="cssState s-ongoing">진행 중</div>
                 </template>
                 <template v-if="onGoingInfo.state == 'adopt'">
-                  <div class="state s-adopt">가결</div>
+                  <div class="cssState s-adopt">가결</div>
                 </template>
                 <template v-if="onGoingInfo.state == 'deny'">
-                  <div class="state s-deny">부결</div>
+                  <div class="cssState s-deny">부결</div>
                 </template>
               </template>
             </div>
             <template v-if="onGoingInfo.type == 'vote'"
-              >총 투표 : {{ onGoingInfo.totalNum }}</template
+              >총 투표 : {{ onGoingInfo.totalVoteCount }}</template
             >
             <template v-if="onGoingInfo.type == 'suggest'"
-              >현재 참여한 멤버 수 : {{ onGoingInfo.totalNum }}</template
+              >현재 참여한 멤버 수 : {{ onGoingInfo.totalVoteCount }}</template
             >
           </div>
           <div class="onGoingTitle">{{ onGoingInfo.title }}</div>
@@ -67,43 +67,43 @@
             </div>
             <div class="textLine">
               <div class="percent">{{ 100 - onGoingInfo.agreePercent }}%</div>
-              <div>{{ onGoingInfo.totalNum - onGoingInfo.agreeNum }}</div>
+              <div>{{ onGoingInfo.totalVoteCount - onGoingInfo.agreeNum }}</div>
             </div>
           </div>
         </li>
       </template>
       <template v-else>
         <li
-          v-for="onGoingInfo in groupList[state]"
-          v-bind:key="onGoingInfo.num"
+          v-for="onGoingInfo in groupList[menuState]"
+          v-bind:key="onGoingInfo.id"
         >
           <div class="line"></div>
           <div class="onGoingHeader">
             <div>
               <template v-if="onGoingInfo.type == 'vote'"
-                >투표 #{{ onGoingInfo.num }}</template
+                >투표 #{{ onGoingInfo.id }}</template
               >
               <template v-else-if="onGoingInfo.type == 'suggest'"
-                >제안 #{{ onGoingInfo.num }}</template
+                >제안 #{{ onGoingInfo.id }}</template
               >
 
-              <template v-if="state != 'onGoing'">
+              <template v-if="menuState != 'onGoing'">
                 <template v-if="onGoingInfo.state == 'going'">
-                  <div class="state s-ongoing">진행 중</div>
+                  <div class="cssState s-ongoing">진행 중</div>
                 </template>
                 <template v-if="onGoingInfo.state == 'adopt'">
-                  <div class="state s-adopt">가결</div>
+                  <div class="cssState s-adopt">가결</div>
                 </template>
                 <template v-if="onGoingInfo.state == 'deny'">
-                  <div class="state s-deny">부결</div>
+                  <div class="cssState s-deny">부결</div>
                 </template>
               </template>
             </div>
             <template v-if="onGoingInfo.type == 'vote'"
-              >총 투표 : {{ onGoingInfo.totalNum }}</template
+              >총 투표 : {{ onGoingInfo.totalVoteCount }}</template
             >
             <template v-if="onGoingInfo.type == 'suggest'"
-              >현재 참여한 멤버 수 : {{ onGoingInfo.totalNum }}</template
+              >현재 참여한 멤버 수 : {{ onGoingInfo.totalVoteCount }}</template
             >
           </div>
           <div class="onGoingTitle">{{ onGoingInfo.title }}</div>
@@ -140,7 +140,7 @@
             </div>
             <div class="textLine">
               <div class="percent">{{ 100 - onGoingInfo.agreePercent }}%</div>
-              <div>{{ onGoingInfo.totalNum - onGoingInfo.agreeNum }}</div>
+              <div>{{ onGoingInfo.totalVoteCount - onGoingInfo.agreeNum }}</div>
             </div>
           </div>
         </li>
@@ -150,80 +150,92 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  props: { state: String },
-  created() {
-    for (var temp in this.onGoingList) {
-      this.groupList[this.onGoingList[temp].type].push(this.onGoingList[temp]);
-    }
-  },
-  data() {
-    return {
-      groupList: {
+  props: { menuState: String, id: String },
+  computed: {
+    groupList() {
+      var groupList = {
         onGoing: [],
         vote: [],
         suggest: [],
         fund: [],
-      },
-      onGoingList: [
+      };
+      for (var temp in this.onGoingList) {
+        groupList[this.onGoingList[temp].type].push(this.onGoingList[temp]);
+      }
+      return groupList;
+    },
+    ...mapGetters({
+      govLoading: "gov/getGovLoading",
+      govInfo: "gov/getGovDict",
+    }),
+    onGoingList() {
+      return this.govLoading ? [] : this.govInfo[this.id]["voteList"];
+    },
+  },
+  data() {
+    return {
+      onGoingTempList: [
         {
-          num: 25,
+          id: 25,
           type: "vote",
-          totalNum: 2463,
+          totalVoteCount: 2463,
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 60,
           agreeNum: 1502,
           state: "going",
         },
         {
-          num: 22,
+          id: 22,
           type: "suggest",
-          totalNum: 110,
+          totalVoteCount: 110,
           title: "1 표당 100 AGT로 하는건 어떨까요?",
           agreePercent: 20,
           agreeNum: 34,
           state: "going",
         },
         {
-          num: 23,
+          id: 23,
           type: "vote",
-          totalNum: 2463,
+          totalVoteCount: 2463,
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 87,
           agreeNum: 1502,
           state: "going",
         },
         {
-          num: 35,
+          id: 35,
           type: "suggest",
-          totalNum: 110,
+          totalVoteCount: 110,
           title: "1 표당 100 AGT로 하는건 어떨까요?",
           agreePercent: 20,
           agreeNum: 34,
           state: "going",
         },
         {
-          num: 45,
+          id: 45,
           type: "vote",
-          totalNum: 2463,
+          totalVoteCount: 2463,
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 87,
           agreeNum: 1502,
           state: "adopt",
         },
         {
-          num: 5,
+          id: 5,
           type: "suggest",
-          totalNum: 110,
+          totalVoteCount: 110,
           title: "1 표당 100 AGT로 하는건 어떨까요?",
           agreePercent: 20,
           agreeNum: 34,
           state: "deny",
         },
         {
-          num: 85,
+          id: 85,
           type: "vote",
-          totalNum: 2463,
+          totalVoteCount: 2463,
           title: "저녁으로 짬뽕말고 짜장면을 먹을까요?",
           agreePercent: 87,
           agreeNum: 1502,
@@ -351,7 +363,7 @@ li {
   justify-content: center;
 }
 
-.totalNum {
+.totalVoteCount {
   font-size: 1.25rem;
 }
 
@@ -370,7 +382,7 @@ li {
   z-index: -1;
 }
 
-.state {
+.cssState {
   width: 6rem;
   height: 2.5rem;
   border-radius: 0.5rem;
