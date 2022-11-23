@@ -121,11 +121,10 @@
                 </template>
               </div>
               <template v-if="onGoingInfo.type == 'vote'"
-                >총 투표 : {{ onGoingInfo.totalVoteCount }}</template
+                >총 투표 : {{ onGoingInfo.totalCount }}</template
               >
               <template v-if="onGoingInfo.type == 'proposal'"
-                >현재 참여한 멤버 수 :
-                {{ onGoingInfo.totalVoteCount }}</template
+                >현재 참여한 멤버 수 : {{ onGoingInfo.totalCount }}</template
               >
             </div>
             <div class="onGoingTitle">{{ onGoingInfo.title }}</div>
@@ -163,7 +162,7 @@
               <div class="textLine">
                 <div class="percent">{{ 100 - onGoingInfo.agreePercent }}%</div>
                 <div>
-                  {{ onGoingInfo.totalVoteCount - onGoingInfo.agreeNum }}
+                  {{ onGoingInfo.totalCount - onGoingInfo.agreeNum }}
                 </div>
               </div>
             </div>
