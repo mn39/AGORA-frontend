@@ -7,6 +7,7 @@ import fundingFactoryContractABI from "../../contracts/abi/FundingFactory.json";
 import fundingContractABI from "../../contracts/abi/Funding.json";
 import proposalFactoryContractABI from "../../contracts/abi/ProposalFactory.json";
 import proposalContractABI from "../../contracts/abi/Proposal.json";
+// import NFTContractABI from "../../contracts/abi/CwrongNFT.json";
 
 const axios = require("axios");
 const state = () => ({
@@ -128,6 +129,15 @@ const actions = {
     ].getGovDatabaseAddress();
     commit("setSigner", await rootGetters["wallet/getSigner"]);
     commit("setGovDatabaseContracts", govDatabaseAddress);
+    // var nftAddress = await getters.getGovDatabaseContract.getNFTAddress(0);
+    // var nftContract = new ethers.Contract(
+    //   nftAddress,
+    //   NFTContractABI,
+    //   getters.getSigner
+    // );
+    // 0x92be24D66ea0Cc8Fa40e13Cc713E1Ae0527BFfdE
+    // console.log(rootGetters["wallet/getWalletAddress"]);
+    // nftContract.mint("0x92be24D66ea0Cc8Fa40e13Cc713E1Ae0527BFfdE", 3);
 
     //set voteFactory
     const voteFactoryAddress = await rootGetters[
@@ -203,6 +213,8 @@ const actions = {
 
       voteObj["totalCount"] = temp;
       voteObj["agreePercent"] = parseInt((voteObj["status"][0] / temp) * 100);
+      if (temp == 0) voteObj["agreePercent"] = 0;
+
       voteObj["agreeNum"] = voteObj["status"][0];
       // voteObj["isEnable"] = await oneVoteContract.isEnable();
       voteObj["isEnable"] = true;
@@ -286,6 +298,8 @@ const actions = {
       proposalObj["agreePercent"] = parseInt(
         (proposalObj["status"][0] / temp) * 100
       );
+      if (temp == 0) proposalObj["agreePercent"] = 0;
+
       proposalObj["agreeNum"] = proposalObj["status"][0];
       proposalObj["isEnable"] = await oneProposalContract.isEnable();
       if (proposalObj["isEnable"] == true) {
@@ -366,6 +380,7 @@ const actions = {
       fundingObj["agreePercent"] = parseInt(
         (fundingObj["status"][0] / temp) * 100
       );
+      if (temp == 0) fundingObj["agreePercent"] = 0;
       fundingObj["agreeNum"] = fundingObj["status"][0];
       fundingObj["isEnable"] = await oneFundingContract.isEnable();
       if (fundingObj["isEnable"] == true) {
@@ -416,6 +431,8 @@ const actions = {
       govObj["proposalCount"] = await oneGovContract.getProposalCount();
       govObj["fundingCount"] = await oneGovContract.getFundingCount();
       govObj["presentBalance"] = await oneGovContract.getPresentBalance();
+      govObj["presentBalance"] = govObj["presentBalance"].toNumber();
+      console.log(govObj["presentBalance"], "asdf");
       govObj["totalBalance"] = await oneGovContract.getTotalBalance();
       // console.log("wtf");
       govObj["voteList"] = await dispatch("getVoteInfo", govObj["id"]);

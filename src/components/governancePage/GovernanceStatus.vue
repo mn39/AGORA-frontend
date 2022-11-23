@@ -30,7 +30,7 @@
     <div class="oneStatus">
       <div class="name">현재 자금</div>
       <div class="value nowBalance">
-        {{ governance.balance }}
+        {{ governance.presentBalance }}
         <img src="../../assets/Agora_symbol 4.svg" alt="" />
       </div>
     </div>

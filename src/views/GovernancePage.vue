@@ -53,6 +53,7 @@ export default {
   color: #2c3e50;
   /* margin-top: 60px; */
   background-color: #082e55;
+  padding-bottom: 4rem;
 }
 
 #status {

@@ -29,6 +29,7 @@ export default {
 
 <style scoped>
 #appVue {
+  height: 100vh;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -36,5 +37,6 @@ export default {
   padding-top: 7rem;
   background-color: #082e55;
   padding-bottom: 3rem;
+  box-sizing: border-box;
 }
 </style>

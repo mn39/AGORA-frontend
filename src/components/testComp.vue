@@ -1,9 +1,14 @@
 <template>
-  <div></div>
+  <div id="test"></div>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style></style>
+<style>
+#test {
+  flex: 1;
+  background-color: blue;
+}
+</style>
